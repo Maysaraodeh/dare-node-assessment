@@ -1,0 +1,41 @@
+{
+  "name": "dare-node-assessment",
+  "version": "1.0.0",
+  "description": "A middleware API that connect clients and admins to an insurance API.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Maysaraodeh/dare-node-assessment.git"
+  },
+  "keywords": [
+    "nodejs"
+  ],
+  "author": "Maysara Odeh",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Maysaraodeh/dare-node-assessment/issues"
+  },
+  "homepage": "https://github.com/Maysaraodeh/dare-node-assessment#readme",
+  "devDependencies": {
+    "@babel/core": "^7.1.0",
+    "@babel/node": "^7.0.0",
+    "@babel/plugin-transform-exponentiation-operator": "^7.0.0",
+    "@babel/plugin-transform-runtime": "^7.0.0",
+    "@babel/plugin-transform-spread": "^7.0.0",
+    "@babel/plugin-transform-strict-mode": "^7.0.0",
+    "@babel/polyfill": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.4.4",
+    "@babel/runtime": "^7.1.1",
+    "@babel/template": "^7.0.0",
+    "@babel/types": "^7.0.0",
+    "babel-eslint": "^10.0.1",
+    "babel-plugin-module-resolver": "^3.1.1",
+    "babel-plugin-rewire": "^1.2.0",
+    "babel-plugin-syntax-trailing-function-commas": "^6.22.0"
+  }
+}
