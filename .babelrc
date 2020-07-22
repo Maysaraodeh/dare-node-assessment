@@ -1,0 +1,40 @@
+{
+  "plugins": [
+    "@babel/transform-spread",
+    "syntax-trailing-function-commas",
+    "@babel/transform-strict-mode",
+    "@babel/transform-exponentiation-operator",
+    "@babel/transform-async-to-generator",
+    "@babel/transform-destructuring",
+    "@babel/transform-parameters",
+    "@babel/transform-duplicate-keys",
+    "@babel/transform-modules-commonjs",
+    "@babel/proposal-object-rest-spread",
+    "@babel/transform-runtime",
+    "@babel/transform-arrow-functions",
+    [
+      "module-resolver",
+      {
+        "root": ["."],
+        "alias": {
+          "test": "./test"
+        }
+      }
+    ]
+  ],
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "esmodules": true
+        }
+      }
+    ]
+  ],
+  "env": {
+    "test": {
+      "plugins": ["rewire"]
+    }
+  }
+}
