@@ -56,6 +56,7 @@
     "debug": "^4.1.1",
     "express": "^4.17.1",
     "http-status-codes": "^1.4.0",
+    "joi": "^17.1.1",
     "parse-error": "^0.2.0",
     "path": "^0.12.7",
     "properties-reader": "^2.0.0"
