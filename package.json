@@ -2,7 +2,6 @@
   "name": "dare-node-assessment",
   "version": "1.0.0",
   "description": "A middleware API that connect clients and admins to an insurance API.",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
