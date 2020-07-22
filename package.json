@@ -48,5 +48,8 @@
     "mocha": "^8.0.1",
     "nodemon": "^1.18.9",
     "supertest": "^4.0.2"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
   }
 }
