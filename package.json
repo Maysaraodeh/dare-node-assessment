@@ -7,7 +7,7 @@
     "start": "babel-node    ./bin/www.js",
     "dev": "NODE_ENV=development nodemon --exec npm run start",
     "prod": "NODE_ENV=production npm run start",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "NODE_ENV=testing && mocha ./test/**/**.test.js --require ./node_modules/@babel/register --exit"
   },
   "repository": {
     "type": "git",
@@ -54,6 +54,7 @@
   },
   "dependencies": {
     "body-parser": "^1.19.0",
+    "chai-as-promised": "^7.1.1",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "debug": "^4.1.1",
@@ -63,6 +64,8 @@
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.19",
     "morgan": "^1.10.0",
+    "nock": "^13.0.2",
+    "node-cache": "^5.1.2",
     "parse-error": "^0.2.0",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
