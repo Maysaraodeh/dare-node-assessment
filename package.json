@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "A middleware API that connect clients and admins to an insurance API.",
   "scripts": {
+    "babel-node": "babel-node --presets=@babel/preset-env",
+    "start": "babel-node    ./bin/www.js",
+    "dev": "NODE_ENV=development nodemon --exec npm run start",
+    "prod": "NODE_ENV=production npm run start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
