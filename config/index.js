@@ -1,8 +1,17 @@
 import development from './env/development';
 import production from './env/production';
-
+import testing from './env/testing';
 let envConfig;
 
-envConfig = process.env.NODE_ENV === 'production' ? production : development;
+switch (process.env.NODE_ENV) {
+  case 'production':
+    envConfig = production;
+    break;
+  case 'testing':
+    envConfig = testing;
+    break;
+  default:
+    envConfig = development;
+}
 
 export default envConfig;

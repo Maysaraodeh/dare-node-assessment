@@ -1,4 +1,4 @@
-import joi from 'joi';
+import joi from '@hapi/joi';
 import httpResponse from '../helpers/httpResponse';
 
 export const validate = (validateCheck) => (req, res, next) => {
