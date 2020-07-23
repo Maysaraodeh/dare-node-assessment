@@ -1,16 +1,23 @@
 import chai from 'chai';
 import request from 'supertest';
 import rewire from 'rewire';
+import { clientsArray } from '../unit/clients/data';
+import nock from 'nock';
+import { validAuth } from '../data.shared';
+import config from '../../config';
 import {
-  validLogin,
+  validLoginAdmin,
+  validLoginUser,
   invalidEmailValidation,
   invalidPasswordValidation,
   missingEmailValidation,
   missingPasswordValidation,
   emptyEmail,
   emptyPassword,
+  notExistedUser,
 } from './payloads/users.payload';
 
+const { INSURANCE_API_BASE_URL } = config;
 let app = rewire('../../app');
 const expect = chai.expect;
 const API = '/api';
@@ -20,18 +27,53 @@ describe('User Login', () => {
     app = rewire('../../app');
   });
 
-  context('POST /login', () => {
-    it('should return token data', (done) => {
+  beforeEach(() => {
+    nock(`${INSURANCE_API_BASE_URL}`)
+      .post('/login')
+      .reply(200, {
+        ...validAuth,
+      });
+    nock(`${INSURANCE_API_BASE_URL}`).get('/clients').reply(200, clientsArray);
+  });
+
+  describe('POST /login', () => {
+    it('should return token data for admin', (done) => {
       request(app)
         .post(`${API}/login`)
-        .send(validLogin)
+        .send(validLoginAdmin)
         .expect((res) => {
           expect(res.body)
             .to.be.an('object')
             .to.have.keys('token', 'type', 'expires_in');
-          expect(res.body.expires_in).to.equal(1);
+          global.adminToken = res.body.token;
+          expect(res.body.expires_in).to.be.below(101);
         })
         .expect(200, done);
+    });
+
+    it('should return token data for user', (done) => {
+      request(app)
+        .post(`${API}/login`)
+        .send(validLoginUser)
+        .expect((res) => {
+          expect(res.body)
+            .to.be.an('object')
+            .to.have.keys('token', 'type', 'expires_in');
+          global.userToken = res.body.token;
+          expect(res.body.expires_in).to.be.below(101);
+        })
+        .expect(200, done);
+    });
+
+    it('should return not found for not existed client', (done) => {
+      request(app)
+        .post(`${API}/login`)
+        .send(notExistedUser)
+        .expect((res) => {
+          expect(res.body).to.be.an('object').to.have.keys('message', 'code');
+          expect(res.body.message).to.equal('Not found.');
+        })
+        .expect(404, done);
     });
 
     it('should return validation error on invalid email', (done) => {
@@ -72,6 +114,7 @@ describe('User Login', () => {
         })
         .expect(400, done);
     });
+
     it('should return validation error on missing password', (done) => {
       request(app)
         .post(`${API}/login`)
@@ -97,6 +140,7 @@ describe('User Login', () => {
         })
         .expect(400, done);
     });
+
     it('should return validation error on empty password', (done) => {
       request(app)
         .post(`${API}/login`)

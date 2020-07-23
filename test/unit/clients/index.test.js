@@ -17,8 +17,8 @@ const validAuthorization = { Authorization: `${type} ${token}` };
 const invalidAuthorization = {
   Authorization: `${invalidType} ${invalidToken}`,
 };
-
 const expect = chai.expect;
+
 chai.use(chaiAsPromised);
 
 describe('Clients Service', () => {
@@ -29,6 +29,7 @@ describe('Clients Service', () => {
         ...validAuth,
       });
   });
+
   describe('FindClientByFilter without cache', () => {
     it('should return client object', async () => {
       cache.flushAll();
@@ -38,21 +39,13 @@ describe('Clients Service', () => {
         },
       })
         .get('/clients')
-        .reply(200, [
-          clientsArray.find(
-            (c) => c.id === 'a0ece5db-cd14-4f21-812f-966633e7be86'
-          ),
-        ]);
+        .reply(200, [clientsArray.find((c) => c.id === '1')]);
 
       const result = await findClientByFilter({
         field: 'id',
-        value: 'a0ece5db-cd14-4f21-812f-966633e7be86',
+        value: '1',
       });
-      expect(result).to.deep.equal(
-        clientsArray.find(
-          (c) => c.id === 'a0ece5db-cd14-4f21-812f-966633e7be86'
-        )
-      );
+      expect(result).to.deep.equal(clientsArray.find((c) => c.id === '1'));
     });
 
     it('should fail because of bad auth', async () => {
@@ -61,17 +54,17 @@ describe('Clients Service', () => {
         ...invalidAuthorization,
       })
         .get('/clients')
-        .reply(401, { message: 'Unauthorized' });
+        .reply(401, { message: 'UnAuthorized' });
 
       await expect(
         findClientByFilter({
           field: 'id',
-          value: 'a0ece5db-cd14-4f21-812f-966633e7be86',
+          value: '1',
         })
-      ).to.be.rejectedWith('Unauthorized');
+      ).to.be.rejectedWith('UnAuthorized');
     });
 
-    it('should return empty object if client not found', async () => {
+    it('should throw not found error when client is not found', async () => {
       cache.flushAll();
       nock(`${INSURANCE_API_BASE_URL}`, {
         reqheaders: {
@@ -81,11 +74,12 @@ describe('Clients Service', () => {
         .get('/clients')
         .reply(200, [clientsArray[0]]);
 
-      const result = await findClientByFilter({
-        field: 'id',
-        value: '',
-      });
-      await expect(result).to.be.empty;
+      await expect(
+        findClientByFilter({
+          field: 'id',
+          value: '',
+        })
+      ).to.be.rejectedWith('Not found.');
     });
   });
 
@@ -94,21 +88,21 @@ describe('Clients Service', () => {
       cache.set('clients', clientsArray);
       const result = await findClientByFilter({
         field: 'id',
-        value: 'a0ece5-4f21-812f-966633e7be86',
+        value: '1',
       });
 
-      expect(result).to.deep.equal(
-        clientsArray.find((c) => c.id === 'a0ece5-4f21-812f-966633e7be86')
-      );
+      expect(result).to.deep.equal(clientsArray.find((c) => c.id === '1'));
     });
 
-    it('should return empty object if client not found in cache', async () => {
+    it('should throw not found error when no client found in cache', async () => {
       cache.set('clients', clientsArray);
-      const result = await findClientByFilter({
-        field: 'id',
-        value: '',
-      });
-      await expect(result).to.be.empty;
+
+      await expect(
+        findClientByFilter({
+          field: 'id',
+          value: '',
+        })
+      ).to.be.rejectedWith('Not found.');
     });
   });
 
@@ -139,7 +133,7 @@ describe('Clients Service', () => {
         },
       })
         .get('/clients')
-        .reply(401, { message: 'Unauthorized' });
+        .reply(401, { message: 'UnAuthorized' });
 
       await expect(findAllClientsDetails()).to.be.rejected;
     });
@@ -153,12 +147,12 @@ describe('Clients Service', () => {
       })
         .get('/clients')
         .reply(200, clientsArray);
-      const result = await findAllClientsDetails({ name: 'Britney' });
+      const result = await findAllClientsDetails({ name: 'admin' });
       expect(result).to.be.an('array');
       expect(result.length).to.equal(1);
     });
 
-    it('should return empty object if client not found', async () => {
+    it('should throw not found if no client matches the name filter', async () => {
       cache.flushAll();
       nock(`${INSURANCE_API_BASE_URL}`, {
         reqheaders: {
@@ -166,16 +160,13 @@ describe('Clients Service', () => {
         },
       })
         .get('/clients')
-        .reply(200, [
-          clientsArray.find(
-            (c) => c.id === 'a0ece5db-cd14-4f21-812f-966633e7be86'
-          ),
-        ]);
+        .reply(200, [clientsArray.find((c) => c.id === '1')]);
 
-      const result = await findAllClientsDetails({
-        name: 'test',
-      });
-      await expect(result).to.be.empty;
+      await expect(
+        findAllClientsDetails({
+          name: 'test',
+        })
+      ).to.be.rejectedWith('Not found.');
     });
   });
 });

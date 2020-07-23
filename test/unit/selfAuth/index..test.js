@@ -6,10 +6,12 @@ import config from '../../../config';
 import { validAuth } from '../../data.shared';
 
 const { INSURANCE_API_BASE_URL } = config;
-
 const expect = chai.expect;
+
 chai.use(chaiAsPromised);
+
 afterEach(() => nock.cleanAll());
+
 describe('SelfAuth Service', () => {
   describe('getAuth', () => {
     it('should return an object contains the token and type', async () => {
@@ -31,7 +33,7 @@ describe('SelfAuth Service', () => {
     it('should throw an error if the credentials are wrong', async () => {
       nock(INSURANCE_API_BASE_URL).post('/login').reply(401, {
         statusCode: 401,
-        error: 'Unauthorized',
+        error: 'UnAuthorized',
         message: 'invalid secret or client id',
       });
       await expect(getAuthToken()).to.be.rejectedWith();
