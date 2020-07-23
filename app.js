@@ -6,7 +6,8 @@ import cookieParser from 'cookie-parser';
 import passport from 'passport';
 import config from './config';
 import { errorHandler } from './middlewares/errorHandler';
-
+import { router } from './routes';
+import { undefinedRequestHandler } from './middlewares/undefindedRequestHandler';
 const { corsConfig, CORS_ALLOWED_LINK } = config;
 const app = express();
 
@@ -40,6 +41,8 @@ app.use((req, res, next) => {
 });
 app.use(cors(corsConfig));
 app.use(cookieParser());
+app.use('/api', router);
+app.use(undefinedRequestHandler);
 app.use(errorHandler);
 
 module.exports = app;
