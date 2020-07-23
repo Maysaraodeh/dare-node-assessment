@@ -5,4 +5,8 @@ failed = Incorrect email/password combination.
 notFound = There is no user record corresponding to this email.
 
 [clients]
-notFound = No client found.
+notFound = Not found.
+unAuthorized = UnAuthorized.
+
+[policies]
+notFound = Not found.

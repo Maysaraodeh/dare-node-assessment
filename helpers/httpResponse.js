@@ -6,7 +6,7 @@ const FailureResponse = function FailureResponse(message, code) {
   this.code = code;
 };
 
-const SuccessResponse = function SuccessResponse(data, message, root) {
+const SuccessResponse = function SuccessResponse(data, message) {
   if (data && typeof data === 'string') {
     message = data;
     data = null;
@@ -15,7 +15,7 @@ const SuccessResponse = function SuccessResponse(data, message, root) {
   if (data) this.data = data;
 
   if (message) this.message = message;
-  if (root) return data || {};
+  return this.data;
 };
 
 export default {

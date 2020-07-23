@@ -1,5 +1,6 @@
 import config from '../config';
 import { httpPostJson } from './httpRequest';
+import { RemoteAPIError } from '../middlewares/errors/index';
 const {
   INSURANCE_API_CLIENT_ID,
   INSURANCE_API_CLIENT_SECRET,
@@ -14,7 +15,8 @@ export const getAuthToken = async () => {
       client_secret: INSURANCE_API_CLIENT_SECRET,
     }
   );
-  if (failure) throw new Error(failure.message || failure);
-  if (!success.token || !success.type) throw new Error('no token found');
+  if (failure) throw new RemoteAPIError(failure.message || failure);
+  if (!success.token || !success.type)
+    throw new RemoteAPIError('no token found');
   return success;
 };

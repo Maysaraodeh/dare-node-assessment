@@ -12,13 +12,14 @@ const opts = {
   secretOrKey: JWT_ENCRYPTION,
 };
 
-const unAuthorizedErrorMessage = 'Unauthorized request';
+const unAuthorizedErrorMessage = 'UnAuthorized.';
 
 passport.use(
   'jwt',
   new Strategy(opts, async (jwtPayload, callback) => {
     try {
-      const user = await findUserByEmail(jwtPayload.email);
+      const user = await findUserByEmail(jwtPayload.user.email);
+
       callback(null, user);
     } catch (error) {
       callback(error);
@@ -33,13 +34,13 @@ const authenticate = (request, response, callback, next) => {
       session: false,
     },
     async (error, user) => {
-      if (error) httpResponse.internalServerError(next, error);
+      if (error) return httpResponse.internalServerError(next, error);
       if (user) {
         request.user = user;
         request.role = user.role;
         callback(user);
       } else {
-        httpResponse.unAuthorized(response, unAuthorizedErrorMessage);
+        return httpResponse.unAuthorized(response, unAuthorizedErrorMessage);
       }
     }
   )(request, response, next);
