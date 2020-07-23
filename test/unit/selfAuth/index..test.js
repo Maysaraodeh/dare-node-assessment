@@ -1,9 +1,9 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import nock from 'nock';
-import { getAuthToken } from '../../services/selfAuth';
-import config from '../../config';
-import { validAuth } from '../data.shared';
+import { getAuthToken } from '../../../services/selfAuth';
+import config from '../../../config';
+import { validAuth } from '../../data.shared';
 
 const { INSURANCE_API_BASE_URL } = config;
 

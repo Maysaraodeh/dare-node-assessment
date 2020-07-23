@@ -1,15 +1,15 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import nock from 'nock';
-import config from '../../config';
+import config from '../../../config';
 import {
   findClientByFilter,
   findAllClientsDetails,
-} from '../../services/clients';
+} from '../../../services/clients';
 const { INSURANCE_API_BASE_URL } = config;
-import { cache } from '../../services/cache';
+import { cache } from '../../../services/cache';
 import { clientsArray } from './data';
-import { validAuth, invalidAuth } from '../data.shared';
+import { validAuth, invalidAuth } from '../../data.shared';
 const { token, type } = validAuth;
 const { toke: invalidToken, type: invalidType } = invalidAuth;
 
