@@ -4,8 +4,8 @@ import cors from 'cors';
 import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import passport from 'passport';
-import path from 'path';
 import config from './config';
+import { errorHandler } from './middlewares/errorHandler';
 
 const { corsConfig, CORS_ALLOWED_LINK } = config;
 const app = express();
@@ -40,5 +40,6 @@ app.use((req, res, next) => {
 });
 app.use(cors(corsConfig));
 app.use(cookieParser());
+app.use(errorHandler);
 
 module.exports = app;
