@@ -1,25 +1,29 @@
 import { cache as clientRepository } from './cache';
 import _ from 'lodash';
 import { getDataFromAPI } from './httpRequest';
+import { ClientsError } from '../middlewares/errors/index';
+import { property } from '../helpers/propertiesReader';
 
 const findClient = (clients, { field, value }) => {
-  return _.find(clients, (client) => {
+  const client = _.find(clients, (client) => {
     return client[field] === value;
   });
+  if (!client) throw new ClientsError(property('clients.notFound'), 404);
+  return client;
+};
+
+const getClients = async () => {
+  return clientRepository.has('clients')
+    ? clientRepository.get('clients')
+    : getDataFromAPI('clients', {
+        cache: true,
+        repository: clientRepository,
+      });
 };
 
 export const findClientByFilter = async (filter) => {
-  let clients = [];
-  if (clientRepository.has('clients'))
-    clients = clientRepository.get('clients');
-  else
-    clients = await getDataFromAPI('clients', {
-      cache: true,
-      repository: clientRepository,
-    });
-
+  let clients = await getClients();
   let client = findClient(clients, filter);
-  if (!client) return {};
   client.policies = [];
   return client;
 };
@@ -29,19 +33,8 @@ export const findAllClientsDetails = async ({
   page = 1,
   name,
 } = {}) => {
-  let clients = [];
-  if (clientRepository.has('clients'))
-    clients = clientRepository.get('clients');
-  else
-    clients = await getDataFromAPI('clients', {
-      cache: true,
-      repository: clientRepository,
-    });
-
-  if (name)
-    return [findClient(clients, { field: 'name', value: name })].filter(
-      Boolean
-    );
+  let clients = await getClients();
+  if (name) return [findClient(clients, { field: 'name', value: name })];
 
   const pages = Math.ceil(clients.length / limit);
 
