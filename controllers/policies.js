@@ -6,6 +6,7 @@ import {
   findAllPolicies,
   findPolicy,
 } from '../services/policies';
+import _ from 'lodash';
 
 export const getPolicies = async (req, res) => {
   const { user, query } = req;
@@ -13,6 +14,8 @@ export const getPolicies = async (req, res) => {
   if (user.role === userRolesEnums[userRolesEnums.user])
     result = await findPoliciesByFilter({ filed: 'clientId', value: user.id });
   else result = await findAllPolicies(query);
+  if (_.isEmpty(result))
+    return httpResponse.notFound(res, property('policies.notFound'));
   return httpResponse.ok(res, result);
 };
 

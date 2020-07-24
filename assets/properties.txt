@@ -3,6 +3,7 @@ failed = Incorrect email/password combination.
 
 [user]
 notFound = There is no user record corresponding to this email.
+unAuthorized = UnAuthorized.
 
 [clients]
 notFound = Not found.

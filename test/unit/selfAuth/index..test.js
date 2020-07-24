@@ -10,8 +10,7 @@ const expect = chai.expect;
 
 chai.use(chaiAsPromised);
 
-afterEach(() => nock.cleanAll());
-
+after(() => nock.cleanAll());
 describe('SelfAuth Service', () => {
   describe('getAuth', () => {
     it('should return an object contains the token and type', async () => {

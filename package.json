@@ -7,8 +7,8 @@
     "start": "babel-node    ./bin/www.js",
     "dev": "cross-env NODE_ENV=development nodemon --exec npm run start",
     "prod": "cross-env NODE_ENV=production npm run start",
-    "unit-test": "export NODE_ENV=testing && mocha ./test/unit/**/**.test.js --require ./node_modules/@babel/register --exit",
-    "endpoints-test": "export NODE_ENV=testing && mocha --timeout 12000  ./test/endpoints/index.js --require ./node_modules/@babel/register --exit",
+    "unit-test": "export NODE_ENV=testing && mocha ./test/unit/index.test.js --require ./node_modules/@babel/register --exit",
+    "endpoints-test": "export NODE_ENV=testing && mocha --timeout 12000  ./test/endpoints/index.test.js --require ./node_modules/@babel/register --exit",
     "test": "npm run unit-test && npm run endpoints-test"
   },
   "repository": {

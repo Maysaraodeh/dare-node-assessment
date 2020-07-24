@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { getDataFromAPI } from './httpRequest';
 import { ClientsError } from '../middlewares/errors/index';
 import { property } from '../helpers/propertiesReader';
+import { findPoliciesByFilter, findAllPolicies } from './policies';
 
 const findClient = (clients, { field, value }) => {
   const client = _.find(clients, (client) => {
@@ -24,8 +25,15 @@ const getClients = async () => {
 export const findClientByFilter = async (filter) => {
   let clients = await getClients();
   let client = findClient(clients, filter);
-  client.policies = [];
   return client;
+};
+
+export const findClientDetails = async (client) => {
+  const clientPolicies = await findPoliciesByFilter({
+    field: 'clientId',
+    value: client.id,
+  });
+  return { ...client, policies: clientPolicies };
 };
 
 export const findAllClientsDetails = async ({
@@ -34,7 +42,9 @@ export const findAllClientsDetails = async ({
   name,
 } = {}) => {
   let clients = await getClients();
-  if (name) return [findClient(clients, { field: 'name', value: name })];
+  if (name) {
+    return findClientByFilter({ field: 'name', value: name });
+  }
 
   const pages = Math.ceil(clients.length / limit);
 
@@ -44,8 +54,8 @@ export const findAllClientsDetails = async ({
     .take(limit)
     .value();
 
-  //! for now
-  result.map((r) => (r.policies = []));
-
-  return { clients: result, currentPage: page, totalPages: pages };
+  let promises = [];
+  result.map((client) => promises.push(findClientDetails(client)));
+  const data = await Promise.all(promises);
+  return { clients: data, currentPage: page, totalPages: pages };
 };

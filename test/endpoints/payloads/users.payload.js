@@ -1,21 +1,21 @@
 export const validLoginAdmin = {
   email: 'admin@quotezart.com',
-  password: 'test1234',
+  password: 'abcd1234',
 };
 
 export const validLoginUser = {
   email: 'user@quotezart.com',
-  password: 'test1234',
+  password: 'abcd1234',
 };
 
 export const notExistedUser = {
   email: 'user1@quotezart.com',
-  password: 'test1234',
+  password: 'abcd1234',
 };
 
 export const invalidEmail = {
   email: 'invalid@quotezart.com',
-  password: 'test1234',
+  password: 'abcd1234',
 };
 
 // validation
