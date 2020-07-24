@@ -10,6 +10,7 @@ const { INSURANCE_API_BASE_URL } = config;
 import { cache } from '../../../services/cache';
 import { clientsArray } from './data';
 import { validAuth, invalidAuth } from '../../data.shared';
+import { nockPoliciesResponse } from '../../endpoints/payloads/policies.payload';
 const { token, type } = validAuth;
 const { toke: invalidToken, type: invalidType } = invalidAuth;
 
@@ -28,6 +29,9 @@ describe('Clients Service', () => {
       .reply(200, {
         ...validAuth,
       });
+    nock(`${INSURANCE_API_BASE_URL}`)
+      .get('/policies')
+      .reply(200, nockPoliciesResponse);
   });
 
   describe('FindClientByFilter without cache', () => {
@@ -116,6 +120,11 @@ describe('Clients Service', () => {
       })
         .get('/clients')
         .reply(200, clientsArray);
+      nock(`${INSURANCE_API_BASE_URL}`)
+        .post('/login')
+        .reply(200, {
+          ...validAuth,
+        });
       const result = await findAllClientsDetails();
       expect(result)
         .to.be.an('object')
@@ -148,8 +157,7 @@ describe('Clients Service', () => {
         .get('/clients')
         .reply(200, clientsArray);
       const result = await findAllClientsDetails({ name: 'admin' });
-      expect(result).to.be.an('array');
-      expect(result.length).to.equal(1);
+      expect(result).to.be.an('object');
     });
 
     it('should throw not found if no client matches the name filter', async () => {
