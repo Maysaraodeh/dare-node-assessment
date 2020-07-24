@@ -1,1 +1,1 @@
-web: npm install; npm run test; npm run prod
+web: npm install; npm run prod
