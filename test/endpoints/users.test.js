@@ -89,7 +89,7 @@ describe('User Login', () => {
             .to.be.an('object')
             .to.have.property('message')
             .to.be.equal(
-              `username with value ${invalidUsernameValidation.username} fails to match the required pattern: /^[a-z0-9_-]{3,16}$/`
+              `username with value ${invalidUsernameValidation.username} fails to match the required pattern: /^[A-Za-z0-9_-]{3,16}$/`
             );
         })
         .expect(400, done);
