@@ -1,8 +1,8 @@
 [authentication]
-failed = Incorrect email/password combination.
+failed = Incorrect username/password combination.
 
 [user]
-notFound = There is no user record corresponding to this email.
+notFound = There is no user record corresponding to this username.
 unAuthorized = UnAuthorized.
 
 [clients]
