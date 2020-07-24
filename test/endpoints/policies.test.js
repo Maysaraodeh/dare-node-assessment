@@ -36,15 +36,17 @@ describe('Policies Routes', () => {
         })
         .expect(200, done);
     });
-    it('should return empty array for user with no policies', (done) => {
+    it('should return not found 404 if user have no policies', (done) => {
       request(app)
         .get(`${API}/policies`)
         .set('Authorization', `Bearer ${global.userToken}`)
         .expect((res) => {
-          expect(res.body).to.be.an('array');
-          expect(res.body.length).to.equal(0);
+          expect(res.body).to.be.an('object');
+          expect(res.body).to.contain.keys(['code', 'message']);
+          expect(res.body.code).to.be.equal(404);
+          expect(res.body.message).to.be.equal('Not found.');
         })
-        .expect(200, done);
+        .expect(404, done);
     });
   });
   describe('GET /policies/:id', () => {

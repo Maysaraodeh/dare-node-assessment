@@ -15,9 +15,9 @@ describe('JWT Auth Service', () => {
     const result = getJWT(payload);
     expect(result).to.have.keys(['token', 'type', 'expires_in']);
     expect(result.expires_in).to.be.below(101);
-    expect(jwt.decode(result.token, JWT_ENCRYPTION).user).to.deep.equal({
-      ...payload,
-    });
+    expect(jwt.decode(result.token, JWT_ENCRYPTION).user).to.deep.equal(
+      payload.id
+    );
   });
 
   it('should return error for invalid token', async () => {

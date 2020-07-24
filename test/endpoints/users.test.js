@@ -1,10 +1,10 @@
 import chai from 'chai';
 import request from 'supertest';
 import rewire from 'rewire';
-import { clientsArray } from '../unit/clients/data';
 import nock from 'nock';
 import { validAuth } from '../data.shared';
 import config from '../../config';
+import { nockClientsResponse } from './payloads/clients.payload';
 import {
   validLoginAdmin,
   validLoginUser,
@@ -33,7 +33,9 @@ describe('User Login', () => {
       .reply(200, {
         ...validAuth,
       });
-    nock(`${INSURANCE_API_BASE_URL}`).get('/clients').reply(200, clientsArray);
+    nock(`${INSURANCE_API_BASE_URL}`)
+      .get('/clients')
+      .reply(200, nockClientsResponse);
   });
 
   describe('POST /login', () => {
