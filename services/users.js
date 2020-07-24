@@ -1,6 +1,6 @@
 import { findClientByFilter } from './clients';
-export const findUserByEmail = (email) => {
-  return findClientByFilter({ field: 'email', value: email });
+export const findUserByName = (name) => {
+  return findClientByFilter({ field: 'name', value: name });
 };
 
 export const findUserById = (id) => {

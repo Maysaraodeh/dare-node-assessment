@@ -8,13 +8,15 @@ import { nockClientsResponse } from './payloads/clients.payload';
 import {
   validLoginAdmin,
   validLoginUser,
-  invalidEmailValidation,
+  invalidUsernameValidation,
   invalidPasswordValidation,
   missingEmailValidation,
   missingPasswordValidation,
   emptyEmail,
   emptyPassword,
   notExistedUser,
+  missingUsernameValidation,
+  emptyUsername,
 } from './payloads/users.payload';
 
 const { INSURANCE_API_BASE_URL } = config;
@@ -78,15 +80,17 @@ describe('User Login', () => {
         .expect(404, done);
     });
 
-    it('should return validation error on invalid email', (done) => {
+    it('should return validation error on invalid username', (done) => {
       request(app)
         .post(`${API}/login`)
-        .send(invalidEmailValidation)
+        .send(invalidUsernameValidation)
         .expect((res) => {
           expect(res.body)
             .to.be.an('object')
             .to.have.property('message')
-            .to.be.equal('email must be a valid email');
+            .to.be.equal(
+              `username with value ${invalidUsernameValidation.username} fails to match the required pattern: /^[a-z0-9_-]{3,16}$/`
+            );
         })
         .expect(400, done);
     });
@@ -104,15 +108,15 @@ describe('User Login', () => {
         .expect(400, done);
     });
 
-    it('should return validation error on missing email', (done) => {
+    it('should return validation error on missing username', (done) => {
       request(app)
         .post(`${API}/login`)
-        .send(missingEmailValidation)
+        .send(missingUsernameValidation)
         .expect((res) => {
           expect(res.body)
             .to.be.an('object')
             .to.have.property('message')
-            .to.be.equal('email is required');
+            .to.be.equal('username is required');
         })
         .expect(400, done);
     });
@@ -130,15 +134,15 @@ describe('User Login', () => {
         .expect(400, done);
     });
 
-    it('should return validation error on empty email', (done) => {
+    it('should return validation error on empty username', (done) => {
       request(app)
         .post(`${API}/login`)
-        .send(emptyEmail)
+        .send(emptyUsername)
         .expect((res) => {
           expect(res.body)
             .to.be.an('object')
             .to.have.property('message')
-            .to.be.equal('email is not allowed to be empty');
+            .to.be.equal('username is not allowed to be empty');
         })
         .expect(400, done);
     });
