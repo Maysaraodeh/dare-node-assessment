@@ -1,60 +1,62 @@
 export const validLoginAdmin = {
-  email: 'admin@quotezart.com',
+  username: 'admin',
   password: 'abcd1234',
 };
 
 export const validLoginUser = {
-  email: 'user@quotezart.com',
+  username: 'user',
   password: 'abcd1234',
 };
 
 export const notExistedUser = {
-  email: 'user1@quotezart.com',
+  username: 'user1',
   password: 'abcd1234',
 };
 
-export const invalidEmail = {
-  email: 'invalid@quotezart.com',
+export const invalidUsername = {
+  username: 'invalid@quotezart.com',
   password: 'abcd1234',
 };
 
 // validation
-export const invalidEmailValidation = {
-  email: 'test.com',
+export const invalidUsernameValidation = {
+  username: 'test.com',
   password: 'test1234',
 };
-export const missingEmailValidation = {
+export const missingUsernameValidation = {
   password: 'test1234',
 };
 
 export const invalidPasswordValidation = {
-  email: 'test@test.com',
+  username: 'user',
   password: 'test',
 };
 
 export const missingPasswordValidation = {
-  email: 'test@test.com',
+  username: 'user',
 };
 
-export const emptyEmail = {
-  email: '',
-  password: 'test1234',
+export const emptyUsername = {
+  username: '',
+  password: 'abcd1234',
 };
 
 export const emptyPassword = {
-  email: 'test@test.com',
+  username: 'user',
   password: '',
 };
 
 export const nockClients = [
   {
     id: '1',
-    email: 'admin@quotezart.com',
+    username: 'admin@quotezart.com',
+    name: 'admin',
     role: 'admin',
   },
   {
     id: '2',
     email: 'user@quotezart.com',
+    name: 'user',
     role: 'user',
   },
 ];
