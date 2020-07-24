@@ -2,7 +2,7 @@ import passport from 'passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import config from '../config';
 import httpResponse from '../helpers/httpResponse';
-import { findUserByEmail } from '../services/users';
+import { findUserById } from '../services/users';
 import { userRolesEnums } from './enum/users';
 
 const { JWT_ENCRYPTION } = config;
@@ -18,8 +18,7 @@ passport.use(
   'jwt',
   new Strategy(opts, async (jwtPayload, callback) => {
     try {
-      const user = await findUserByEmail(jwtPayload.user.email);
-
+      const user = await findUserById(jwtPayload.user);
       callback(null, user);
     } catch (error) {
       callback(error);

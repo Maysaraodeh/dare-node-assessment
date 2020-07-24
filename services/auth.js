@@ -4,7 +4,7 @@ import moment from 'moment';
 const { JWT_ENCRYPTION, JWT_EXPIRATION } = config;
 
 export const getJWT = (user) => {
-  const token = jwt.sign({ user }, JWT_ENCRYPTION, {
+  const token = jwt.sign({ user: user.id }, JWT_ENCRYPTION, {
     expiresIn: JWT_EXPIRATION,
   });
 
