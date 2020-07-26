@@ -53,7 +53,7 @@ If you need to update `npm`, you can make it using `npm`! Cool right? After runn
 
 | Library                                                              |                             Usage                             |
 | -------------------------------------------------------------------- | :-----------------------------------------------------------: |
-| [express](http://expressjs.com/)                                     |            the app core, web framework for Nodejs             |
+| [express](http://expressjs.com/)                                     |         The core of the app, web framework for Nodejs         |
 | [babel](https://babeljs.io/docs/en/babel-node)                       |                          ES6 support                          |
 | [@hapi/joi](https://www.npmjs.com/package/joi)                       |         Request's body,queries and params validation          |
 | [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)           |               Authentication and Authorization                |
@@ -116,12 +116,12 @@ the advantage for this approach is not very clear especially if the token expire
 ## Install
 
     $ git clone https://github.com/Maysaraodeh/dare-node-assessment.git
-    $ cd PROJECT_TITLE
+    $ cd dare-node-assessment
     $ npm install
 
 ## Configure app
 
-Add new file called `.env` which will contain all the secrets data, your app will not start unless you provide this file config and here is a list of required variables.
+Add new file called `.env` which will contain all the your secrets data, your app will not start properly unless you provide this file config and here is a list of required variables.
 
 ```
     INSURANCE_API_CLIENT_ID
