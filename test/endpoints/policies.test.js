@@ -2,10 +2,9 @@ import chai from 'chai';
 import request from 'supertest';
 import rewire from 'rewire';
 import nock from 'nock';
-import config from '../../config';
 import { validAuth } from '../data.shared';
 import { nockPoliciesResponse } from './payloads/policies.payload';
-const { INSURANCE_API_BASE_URL } = config;
+const { INSURANCE_API_BASE_URL } = process.env;
 
 const expect = chai.expect;
 const API = '/api';

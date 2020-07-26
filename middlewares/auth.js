@@ -1,11 +1,10 @@
 import passport from 'passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import config from '../config';
 import httpResponse from '../helpers/httpResponse';
 import { findUserById } from '../services/users';
 import { userRolesEnums } from './enum/users';
 
-const { JWT_ENCRYPTION } = config;
+const { JWT_ENCRYPTION } = process.env;
 
 const opts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

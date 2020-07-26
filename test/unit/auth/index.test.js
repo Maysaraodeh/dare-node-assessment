@@ -2,10 +2,9 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import { getJWT } from '../../../services/auth';
 import { payload } from './data';
-import config from '../../../config';
 import jwt from 'jsonwebtoken';
 
-const { JWT_ENCRYPTION } = config;
+const { JWT_ENCRYPTION } = process.env;
 const expect = chai.expect;
 
 chai.use(chaiAsPromised);

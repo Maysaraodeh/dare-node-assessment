@@ -1,7 +1,8 @@
 import config from '../config';
 import jwt from 'jsonwebtoken';
 import moment from 'moment';
-const { JWT_ENCRYPTION, JWT_EXPIRATION } = config;
+const { JWT_ENCRYPTION } = process.env;
+const { JWT_EXPIRATION } = config;
 
 export const getJWT = (user) => {
   const token = jwt.sign({ user: user.id }, JWT_ENCRYPTION, {
