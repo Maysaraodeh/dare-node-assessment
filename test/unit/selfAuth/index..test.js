@@ -4,6 +4,7 @@ import nock from 'nock';
 import { getAuthToken } from '../../../services/selfAuth';
 import config from '../../../config';
 import { validAuth } from '../../data.shared';
+import { cache } from '../../../services/cache';
 
 const { INSURANCE_API_BASE_URL } = config;
 const expect = chai.expect;
@@ -12,6 +13,10 @@ chai.use(chaiAsPromised);
 
 after(() => nock.cleanAll());
 describe('SelfAuth Service', () => {
+  afterEach(() => {
+    cache.flushAll();
+    nock.cleanAll();
+  });
   describe('getAuth', () => {
     it('should return an object contains the token and type', async () => {
       nock(`${INSURANCE_API_BASE_URL}`)
