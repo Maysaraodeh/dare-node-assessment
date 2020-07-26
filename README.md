@@ -4,6 +4,12 @@ A middleware API that connect clients and admins to an insurance API.
 
 ---
 
+## API Docs
+
+A postman collection that you could use, provided with an environment variables and response tests so it makes it easy to fly.
+
+[API Docs](https://documenter.getpostman.com/view/2844109/T1DpDJLp?version=latest)
+
 ## Requirements
 
 For development, you will only need Node.js and a node global package, npm or yarn, installed in your environnement.
