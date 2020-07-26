@@ -3,6 +3,7 @@ import { getAuthToken } from './selfAuth';
 import { getExpirationTime } from '../helpers/utils';
 import config from '../config';
 import { property } from '../helpers/propertiesReader';
+import { tokenErrors } from '../middlewares/errors/authTokenErros';
 const { INSURANCE_API_BASE_URL } = config;
 
 export const httpPostJson = (url, body, headers) =>
@@ -70,8 +71,12 @@ export const getDataFromAPI = async (path, { cache = true, repository }) => {
       Authorization: `${type} ${token}`,
     }
   );
-
-  if (failure) throw new Error(failure.message || failure);
+  if (failure) {
+    if (tokenErrors.includes(failure.message)) {
+      repository.del('authToken');
+      return getDataFromAPI(path, { cache, repository });
+    } else throw new Error(failure.message || failure);
+  }
   if (!success) throw new Error(property(`${path}.notFound`));
   if (cache) repository.set(path, success, getExpirationTime(headers));
   return success;
