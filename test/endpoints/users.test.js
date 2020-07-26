@@ -3,23 +3,20 @@ import request from 'supertest';
 import rewire from 'rewire';
 import nock from 'nock';
 import { validAuth } from '../data.shared';
-import config from '../../config';
 import { nockClientsResponse } from './payloads/clients.payload';
 import {
   validLoginAdmin,
   validLoginUser,
   invalidUsernameValidation,
   invalidPasswordValidation,
-  missingEmailValidation,
   missingPasswordValidation,
-  emptyEmail,
   emptyPassword,
   notExistedUser,
   missingUsernameValidation,
   emptyUsername,
 } from './payloads/users.payload';
 
-const { INSURANCE_API_BASE_URL } = config;
+const { INSURANCE_API_BASE_URL } = process.env;
 let app = rewire('../../app');
 const expect = chai.expect;
 const API = '/api';

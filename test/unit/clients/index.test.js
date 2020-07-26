@@ -1,12 +1,11 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import nock from 'nock';
-import config from '../../../config';
 import {
   findClientByFilter,
   findAllClientsDetails,
 } from '../../../services/clients';
-const { INSURANCE_API_BASE_URL } = config;
+const { INSURANCE_API_BASE_URL } = process.env;
 import { cache } from '../../../services/cache';
 import { clientsArray } from './data';
 import { validAuth, invalidAuth } from '../../data.shared';
