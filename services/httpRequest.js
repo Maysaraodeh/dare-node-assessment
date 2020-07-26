@@ -1,10 +1,9 @@
 import request from 'request';
 import { getAuthToken } from './selfAuth';
 import { getExpirationTime } from '../helpers/utils';
-import config from '../config';
 import { property } from '../helpers/propertiesReader';
 import { tokenErrors } from '../middlewares/errors/authTokenErros';
-const { INSURANCE_API_BASE_URL } = config;
+const { INSURANCE_API_BASE_URL } = process.env;
 
 export const httpPostJson = (url, body, headers) =>
   new Promise((resolve, reject) => {
