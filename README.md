@@ -109,7 +109,7 @@ As we don't have a refresh token provided by the API we need to test against the
 
 - i gain an access token as soon as i get a request (first request from any client).
 - this token will be saved in the cache but with no expiration as we also don't have details about the expiration time (expires_in) field,
-- Next, on each request i receive i use the local cached token, if the request trowed and error related to the token expiration or any token issues i regain the token from the api and repeat the previous request.
+- Next, on each request i receive i use the local cached token, if the an error related to the token expiration or any token issues has been thrown, i regain the token from the api and repeat the previous request.
 
 the advantage for this approach is not very clear especially if the token expires in seconds, but you don't need to always get the token first and then send the request, with this approach you may save a little bit of bandwidth and network requests.
 
