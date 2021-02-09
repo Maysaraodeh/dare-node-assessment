@@ -1,12 +1,9 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import nock from 'nock';
-import {
-  findClientByFilter,
-  findAllClientsDetails,
-} from '../../../services/clients';
+import { findClientByFilter, findAllClientsDetails } from '../../../services/clients';
 const { INSURANCE_API_BASE_URL } = process.env;
-import { cache } from '../../../services/cache';
+import cache from '../../../services/cache';
 import { clientsArray } from './data';
 import { validAuth, invalidAuth } from '../../data.shared';
 import { nockPoliciesResponse } from '../../endpoints/payloads/policies.payload';
@@ -28,9 +25,7 @@ describe('Clients Service', () => {
       .reply(200, {
         ...validAuth,
       });
-    nock(`${INSURANCE_API_BASE_URL}`)
-      .get('/policies')
-      .reply(200, nockPoliciesResponse);
+    nock(`${INSURANCE_API_BASE_URL}`).get('/policies').reply(200, nockPoliciesResponse);
   });
 
   describe('FindClientByFilter without cache', () => {
@@ -125,9 +120,7 @@ describe('Clients Service', () => {
           ...validAuth,
         });
       const result = await findAllClientsDetails();
-      expect(result)
-        .to.be.an('object')
-        .that.include.keys(['clients', 'currentPage', 'totalPages']);
+      expect(result).to.be.an('object').that.include.keys(['clients', 'currentPage', 'totalPages']);
       expect(result.clients.length).to.equal(3);
       expect(result.currentPage).to.equal(1);
       expect(result.totalPages).to.equal(1);

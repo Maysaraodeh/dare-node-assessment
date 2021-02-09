@@ -20,9 +20,7 @@ describe('Policies Routes', () => {
       .reply(200, {
         ...validAuth,
       });
-    nock(`${INSURANCE_API_BASE_URL}`)
-      .get('/policies')
-      .reply(200, nockPoliciesResponse);
+    nock(`${INSURANCE_API_BASE_URL}`).get('/policies').reply(200, nockPoliciesResponse);
   });
   describe('GET /policies', () => {
     it('should return all policies limited to 10 for admin user', (done) => {

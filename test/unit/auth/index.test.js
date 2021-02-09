@@ -1,6 +1,6 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
-import { getJWT } from '../../../services/auth';
+import getJWT from '../../../services/auth';
 import { payload } from './data';
 import jwt from 'jsonwebtoken';
 
@@ -14,9 +14,7 @@ describe('JWT Auth Service', () => {
     const result = getJWT(payload);
     expect(result).to.have.keys(['token', 'type', 'expires_in']);
     expect(result.expires_in).to.be.below(101);
-    expect(jwt.decode(result.token, JWT_ENCRYPTION).user).to.deep.equal(
-      payload.id
-    );
+    expect(jwt.decode(result.token, JWT_ENCRYPTION).user).to.deep.equal(payload.id);
   });
 
   it('should return error for invalid token', async () => {

@@ -1,9 +1,9 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import nock from 'nock';
-import { getAuthToken } from '../../../services/selfAuth';
+import { getAuthToken } from '../../../services/httpRequest';
 import { validAuth } from '../../data.shared';
-import { cache } from '../../../services/cache';
+import cache from '../../../services/cache';
 
 const { INSURANCE_API_BASE_URL } = process.env;
 const expect = chai.expect;
