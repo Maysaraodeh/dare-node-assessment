@@ -1,5 +1,6 @@
 import joi from '@hapi/joi';
-const validIdRegex = /^[^*|\":<>[\]{}`\\()';@&$]+$/;
+
+const validIdRegex = /^[^*|":<>[\]{}`\\()';@&$]+$/;
 
 export const getPoliciesValidation = {
   query: {

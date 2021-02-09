@@ -7,38 +7,34 @@ const FailureResponse = function FailureResponse(message, code) {
 };
 
 const SuccessResponse = function SuccessResponse(data, message) {
+  let successMessage = message;
+  let successData = data;
   if (data && typeof data === 'string') {
-    message = data;
-    data = null;
+    successMessage = data;
+    successData = null;
   }
   this.success = true;
-  if (data) this.data = data;
+  if (successData) this.data = successData;
 
-  if (message) this.message = message;
+  if (successMessage) this.message = successMessage;
   return this.data;
 };
 
 export default {
   ok: (response, data, message, root) =>
-    response
-      .status(httpStatus.OK)
-      .json(new SuccessResponse(data, message, root)),
+    response.status(httpStatus.OK).json(new SuccessResponse(data, message, root)),
   badRequest: (response, message) =>
     response
       .status(httpStatus.BAD_REQUEST)
       .json(new FailureResponse(message, httpStatus.BAD_REQUEST)),
   notFound: (response, message) =>
-    response
-      .status(httpStatus.NOT_FOUND)
-      .json(new FailureResponse(message, httpStatus.NOT_FOUND)),
+    response.status(httpStatus.NOT_FOUND).json(new FailureResponse(message, httpStatus.NOT_FOUND)),
   unAuthorized: (response, message) =>
     response
       .status(httpStatus.UNAUTHORIZED)
       .json(new FailureResponse(message, httpStatus.UNAUTHORIZED)),
   forbidden: (response, message) =>
-    response
-      .status(httpStatus.FORBIDDEN)
-      .json(new FailureResponse(message, httpStatus.FORBIDDEN)),
+    response.status(httpStatus.FORBIDDEN).json(new FailureResponse(message, httpStatus.FORBIDDEN)),
   notAllowedMethod: (request, response, message) =>
     response
       .status(httpStatus.METHOD_NOT_ALLOWED)
