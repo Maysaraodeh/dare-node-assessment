@@ -21,12 +21,8 @@ describe('Clients Routes', () => {
       .reply(200, {
         ...validAuth,
       });
-    nock(`${INSURANCE_API_BASE_URL}`)
-      .get('/policies')
-      .reply(200, nockPoliciesResponse);
-    nock(`${INSURANCE_API_BASE_URL}`)
-      .get('/clients')
-      .reply(200, nockClientsResponse);
+    nock(`${INSURANCE_API_BASE_URL}`).get('/policies').reply(200, nockPoliciesResponse);
+    nock(`${INSURANCE_API_BASE_URL}`).get('/clients').reply(200, nockClientsResponse);
   });
 
   describe('GET /clients', () => {

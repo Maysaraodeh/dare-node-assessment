@@ -1,5 +1,6 @@
 import parseError from 'parse-error';
-export const errorHandler = (error, request, response, next) => {
+
+const errorHandler = (error, request, response, next) => {
   const statusCode = error.code || error.status || 500;
   let jsonError;
   try {
@@ -8,10 +9,7 @@ export const errorHandler = (error, request, response, next) => {
     jsonError = error;
   }
 
-  if (
-    request.app.get('env') !== 'production' &&
-    request.app.get('env') !== 'testing'
-  ) {
+  if (request.app.get('env') !== 'production' && request.app.get('env') !== 'testing') {
     response.status(statusCode).json(jsonError);
   } else {
     response.status(statusCode).send({
@@ -21,3 +19,5 @@ export const errorHandler = (error, request, response, next) => {
   }
   next();
 };
+
+export default errorHandler;

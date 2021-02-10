@@ -5,7 +5,6 @@ import { findUserById } from '../services/users';
 import { userRolesEnums } from './enum/users';
 
 const { JWT_ENCRYPTION } = process.env;
-
 const opts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: JWT_ENCRYPTION,
@@ -36,10 +35,9 @@ const authenticate = (request, response, callback, next) => {
       if (user) {
         request.user = user;
         request.role = user.role;
-        callback(user);
-      } else {
-        return httpResponse.unAuthorized(response, unAuthorizedErrorMessage);
+        return callback(user);
       }
+      return httpResponse.unAuthorized(response, unAuthorizedErrorMessage);
     }
   )(request, response, next);
 };
@@ -60,9 +58,10 @@ export const isAdmin = (request, response, next) => {
     request,
     response,
     () => {
-      if (request.user.role === userRolesEnums[userRolesEnums.admin])
+      if (request.user.role === userRolesEnums[userRolesEnums.admin]) {
         return next();
-      httpResponse.unAuthorized(response, unAuthorizedErrorMessage);
+      }
+      return httpResponse.unAuthorized(response, unAuthorizedErrorMessage);
     },
     next
   );

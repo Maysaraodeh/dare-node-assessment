@@ -1,8 +1,7 @@
 import moment from 'moment';
 
-export const getExpirationTime = ({ expires = moment() }) => {
-  return moment(expires).utc().unix() - moment().utc().unix();
-};
+export const getExpirationTime = ({ expires = moment() }) =>
+  moment(expires).utc().unix() - moment().utc().unix();
 
 export const arrayToEnum = (arr) => {
   const obj = {};

@@ -17,6 +17,7 @@ import {
 } from './payloads/users.payload';
 
 const { INSURANCE_API_BASE_URL } = process.env;
+
 let app = rewire('../../app');
 const expect = chai.expect;
 const API = '/api';
@@ -32,9 +33,7 @@ describe('User Login', () => {
       .reply(200, {
         ...validAuth,
       });
-    nock(`${INSURANCE_API_BASE_URL}`)
-      .get('/clients')
-      .reply(200, nockClientsResponse);
+    nock(`${INSURANCE_API_BASE_URL}`).get('/clients').reply(200, nockClientsResponse);
   });
 
   describe('POST /login', () => {
@@ -43,9 +42,7 @@ describe('User Login', () => {
         .post(`${API}/login`)
         .send(validLoginAdmin)
         .expect((res) => {
-          expect(res.body)
-            .to.be.an('object')
-            .to.have.keys('token', 'type', 'expires_in');
+          expect(res.body).to.be.an('object').to.have.keys('token', 'type', 'expires_in');
           global.adminToken = res.body.token;
           expect(res.body.expires_in).to.be.below(101);
         })
@@ -57,9 +54,7 @@ describe('User Login', () => {
         .post(`${API}/login`)
         .send(validLoginUser)
         .expect((res) => {
-          expect(res.body)
-            .to.be.an('object')
-            .to.have.keys('token', 'type', 'expires_in');
+          expect(res.body).to.be.an('object').to.have.keys('token', 'type', 'expires_in');
           global.userToken = res.body.token;
           expect(res.body.expires_in).to.be.below(101);
         })

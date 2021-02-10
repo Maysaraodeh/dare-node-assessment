@@ -1,31 +1,29 @@
-import { cache as clientRepository } from './cache';
 import _ from 'lodash';
+import clientRepository from './cache';
 import { getDataFromAPI } from './httpRequest';
-import { ClientsError } from '../middlewares/errors/index';
-import { property } from '../helpers/propertiesReader';
-import { findPoliciesByFilter, findAllPolicies } from './policies';
+import { ClientsError } from '../middlewares/errors';
+import property from '../helpers/propertiesReader';
+import { findPoliciesByFilter } from './policies';
 
 const findClient = (clients, { field, value }) => {
-  const client = _.find(clients, (client) => {
-    return client[field] === value;
-  });
+  const client = _.find(clients, (c) => c[field] === value);
   if (!client) throw new ClientsError(property('clients.notFound'), 404);
   return client;
 };
 
 const getClients = async () => {
-  return clientRepository.has('clients')
-    ? clientRepository.get('clients')
-    : getDataFromAPI('clients', {
-        cache: true,
-        repository: clientRepository,
-      });
+  if (clientRepository.has('clients')) {
+    return clientRepository.get('clients');
+  }
+  return getDataFromAPI('clients', {
+    cache: true,
+    repository: clientRepository,
+  });
 };
 
 export const findClientByFilter = async (filter) => {
-  let clients = await getClients();
-  let client = findClient(clients, filter);
-  return client;
+  const clients = await getClients();
+  return findClient(clients, filter);
 };
 
 export const findClientDetails = async (client) => {
@@ -36,12 +34,8 @@ export const findClientDetails = async (client) => {
   return { ...client, policies: clientPolicies };
 };
 
-export const findAllClientsDetails = async ({
-  limit = 10,
-  page = 1,
-  name,
-} = {}) => {
-  let clients = await getClients();
+export const findAllClientsDetails = async ({ limit = 10, page = 1, name } = {}) => {
+  const clients = await getClients();
   if (name) {
     return findClientByFilter({ field: 'name', value: name });
   }
@@ -54,8 +48,15 @@ export const findAllClientsDetails = async ({
     .take(limit)
     .value();
 
-  let promises = [];
-  result.map((client) => promises.push(findClientDetails(client)));
-  const data = await Promise.all(promises);
+  const data = await Promise.all(result.map((client) => findClientDetails(client)));
+
+  /*  
+    I applied pagination parameters along with the clients data,
+    the response body will be formed like the following return,
+    this doesn't matches the required API contract in the assessment,
+    but when it comes to pagination these parameters are very important
+  */
   return { clients: data, currentPage: page, totalPages: pages };
+  // the following return will match the required contract
+  // return data;
 };

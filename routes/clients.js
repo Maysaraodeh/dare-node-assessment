@@ -1,9 +1,10 @@
 import express from 'express';
-import { asyncHandler } from '../middlewares/asyncHandler';
-import { validate } from '../middlewares/validate';
+import asyncHandler from '../middlewares/asyncHandler';
+import validate from '../middlewares/validate';
 import { isAuthorized } from '../middlewares/auth';
 import { clientsValidation } from '../validators';
 import { clientsController } from '../controllers';
+
 const clientsRouter = express.Router();
 
 clientsRouter
