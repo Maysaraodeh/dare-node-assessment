@@ -9,6 +9,7 @@ import http from 'http';
 import config from '../config';
 
 const app = require('../app');
+
 const debug = Debug('dare-node-assessment:server');
 /**
  * Get port from environment and store in Express.
