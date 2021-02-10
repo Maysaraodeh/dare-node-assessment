@@ -1,7 +1,6 @@
 import request from 'request';
 import { getExpirationTime } from '../helpers/utils';
 import property from '../helpers/propertiesReader';
-import tokenErrors from '../middlewares/errors/authTokenErros';
 import { RemoteAPIError } from '../middlewares/errors';
 import dataCache from './cache';
 
@@ -32,7 +31,7 @@ export const httpPostJson = (url, body, headers) =>
       if (response.statusCode >= 400) httpResponse.failure = resBody;
       else httpResponse.success = resBody;
       httpResponse.headers = response.headers || {};
-      return resolve(httpResponse);
+      return resolve({ ...httpResponse, statusCode: response.statusCode });
     });
   });
 
@@ -57,7 +56,7 @@ export const httpGet = (url, headers) =>
       if (response.statusCode >= 400) httpResponse.failure = resBody || 'Authentication Error';
       else httpResponse.success = resBody;
       httpResponse.headers = response.headers || {};
-      return resolve(httpResponse);
+      return resolve({ ...httpResponse, statusCode: response.statusCode });
     });
   });
 
@@ -80,11 +79,16 @@ export const getAuthToken = async (cacheToken = true) => {
 
 export const getDataFromAPI = async (path, { cache = true, repository }) => {
   const { token, type } = await getAuthToken();
-  const { success, failure, headers } = await httpGet(`${INSURANCE_API_BASE_URL}/${path}`, {
-    Authorization: `${type} ${token}`,
-  });
+  const { success, failure, headers, statusCode } = await httpGet(
+    `${INSURANCE_API_BASE_URL}/${path}`,
+    {
+      Authorization: `${type} ${token}`,
+    }
+  );
+
   if (failure) {
-    if (tokenErrors.includes(failure.message)) {
+    // We need to check the message, because 401 means unAuthorized or token expired
+    if (statusCode === 401 && failure.message === 'Authorization token expired') {
       repository.del('authToken');
       return getDataFromAPI(path, { cache, repository });
     }
