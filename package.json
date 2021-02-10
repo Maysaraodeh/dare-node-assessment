@@ -7,9 +7,9 @@
     "start": "node -r dotenv/config index.js ",
     "dev": "cross-env NODE_ENV=development nodemon --exec npm run start",
     "prod": "cross-env NODE_ENV=production npm run start",
-    "unit-test": "cross-env NODE_ENV=testing && mocha -r dotenv/config ./test/unit/index.test.js --require esm --exit",
-    "endpoints-test": "cross-env NODE_ENV=testing && mocha --timeout 12000 -r dotenv/config  ./test/endpoints/index.test.js --require esm --exit",
-    "test": "cross-env NODE_ENV=testing npm run unit-test && cross-env NODE_ENV=testing npm run endpoints-test",
+    "unit-test": "cross-env NODE_ENV=testing mocha -r dotenv/config ./test/unit/index.test.js --require esm --exit",
+    "endpoints-test": "cross-env NODE_ENV=testing mocha --timeout 12000 -r dotenv/config  ./test/endpoints/index.test.js --require esm --exit",
+    "test": "npm run unit-test && npm run endpoints-test",
     "lint": "eslint \"**/*.js\""
   },
   "repository": {
