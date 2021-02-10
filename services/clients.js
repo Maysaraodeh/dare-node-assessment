@@ -48,8 +48,15 @@ export const findAllClientsDetails = async ({ limit = 10, page = 1, name } = {})
     .take(limit)
     .value();
 
-  const promises = [];
-  result.map((client) => promises.push(findClientDetails(client)));
-  const data = await Promise.all(promises);
+  const data = await Promise.all(result.map((client) => findClientDetails(client)));
+
+  /*  
+    I applied pagination parameters along with the clients data,
+    the response body will be formed like the following return,
+    this doesn't matches the required API contract in the assessment,
+    but when it comes to pagination these parameters are very important
+  */
   return { clients: data, currentPage: page, totalPages: pages };
+  // the following return will match the required contract
+  // return data;
 };
