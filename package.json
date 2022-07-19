@@ -59,7 +59,7 @@
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "path": "^0.12.7",
-    "properties-reader": "^2.0.0",
+    "properties-reader": "^2.2.0",
     "request": "^2.88.2",
     "rewire": "^5.0.0"
   }
